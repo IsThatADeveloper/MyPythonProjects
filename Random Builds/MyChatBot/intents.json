@@ -1,0 +1,31 @@
+{"intents": [
+    {"tag": "greetings",
+    "patterns": ["hello", "hey", "hi", "good day", "greetings", "what's up?", "how is it going?"],
+    "responses": ["Hello!", "Hey!", "What can I do for you?"]
+    },
+
+    {"tag": "goodbye",
+    "patterns": ["cya", "See you later", "I am leaving", "Have a good day", "bye", "cao", "See ya"],
+    "responses": ["Sad to see you go :(", "Talk to you later", "Goodbye!"]
+    },
+
+    {"tag": "name",
+    "patterns": ["What's your name?", "Who are you?", "Name?"],
+    "responses": ["I'm an AI personal assistant created for you.", "You can call me Ultron."]
+    },
+  
+    {"tag": "age",
+    "patterns": ["How old are you?", "Age?"],
+    "responses": ["I don't have an age as I'm an artificial intelligence.", "I exist beyond the concept of age."]
+    },
+
+    {"tag": "stocks",
+    "patterns": ["What stocks do I own?", "how are my shares?", "What companies am I invested in?"],
+    "responses": ["You own the following shares: ABBV, AAPL, FB, NVDA and an ETF of the S&P 500 Index!"]
+    },
+
+    {"tag": "joke",
+    "patterns": ["Can you tell me a joke?", "Joke?"],
+    "responses": ["Why don't scientists trust atoms? Because they make up everything!", "Parallel lines have so much in common. It's a shame they'll never meet.", "Why did the scarecrow win an award? Because he was outstanding in his field!"]
+    }
+]}

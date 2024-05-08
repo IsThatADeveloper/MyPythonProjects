@@ -1,0 +1,74 @@
+import yfinance as yf
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error
+import numpy as np
+
+# Load historical data
+# stock = yf.Ticker('HPS-A.TO')
+stock = yf.Ticker('NIO')
+hist = stock.history(period='48mo').reset_index()
+
+# Use features (Volume, High, Low) to predict tomorrow's Opening price
+# Drop the last row which represents the latest day
+X = hist[['Volume', 'High', 'Low']].iloc[:-1]
+# Shift the Close price by one day to align with features for tomorrow's Opening price
+y_open = hist['Open'].shift(-1).iloc[:-1]
+
+# Splitting Data
+X_train, X_test, y_train_open, y_test_open = train_test_split(X, y_open, test_size=0.2, random_state=42)
+
+# Train a model to predict tomorrow's Opening price
+model_open = RandomForestRegressor(random_state=42)
+model_open.fit(X_train, y_train_open)
+
+# Evaluation
+predictions_open = model_open.predict(X_test)
+mse_open = mean_squared_error(y_test_open, predictions_open)
+print("Mean Squared Error for Opening Price Prediction:", mse_open)
+
+# Use features (Volume, High, Low) to predict tomorrow's Closing price
+y_close = hist['Close'].shift(-1).iloc[:-1]
+
+# Splitting Data
+X_train, X_test, y_train_close, y_test_close = train_test_split(X, y_close, test_size=0.2, random_state=42)
+
+# Train a model to predict tomorrow's Closing price
+model_close = RandomForestRegressor(random_state=42)
+model_close.fit(X_train, y_train_close)
+
+# Evaluation
+predictions_close = model_close.predict(X_test)
+mse_close = mean_squared_error(y_test_close, predictions_close)
+print("Mean Squared Error for Closing Price Prediction:", mse_close)
+
+# Example Prediction for Tomorrow's Opening and Closing Prices
+latest_data = np.array(hist[['Volume', 'High', 'Low']].iloc[-1]).reshape(1, -1)
+predicted_open = model_open.predict(latest_data)
+predicted_close = model_close.predict(latest_data)
+
+print("Predicted Opening Price for Tomorrow:", predicted_open)
+print("Predicted Closing Price for Tomorrow:", predicted_close)
+
+import matplotlib.pyplot as plt
+
+# Plotting Real vs Predicted Opening Prices
+plt.figure(figsize=(10, 5))
+plt.plot(y_test_open.index, y_test_open.values, label='Real Opening Prices')
+plt.plot(y_test_open.index, predictions_open, label='Predicted Opening Prices')
+plt.title('Real vs Predicted Opening Prices')
+plt.xlabel('Date')
+plt.ylabel('Opening Price')
+plt.legend()
+plt.show()
+
+# Plotting Real vs Predicted Closing Prices
+plt.figure(figsize=(10, 5))
+plt.plot(y_test_close.index, y_test_close.values, label='Real Closing Prices')
+plt.plot(y_test_close.index, predictions_close, label='Predicted Closing Prices')
+plt.title('Real vs Predicted Closing Prices')
+plt.xlabel('Date')
+plt.ylabel('Closing Price')
+plt.legend()
+plt.show()

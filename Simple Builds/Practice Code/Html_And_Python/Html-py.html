@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+        <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    </head>
+
+    <body>
+        <p id="text"></p>
+        <py-script>
+            import socket
+
+            # Create a socket object
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            
+            # Get the hostname
+            hostname = socket.gethostname()
+            
+            # Get the IP address
+            ip_address = socket.gethostbyname(hostname)
+            
+            print("Hostname:", hostname)
+            print("IP Address:", ip_address)
+
+            print("hi")
+            x = 0
+            pyscript.write("text", x + 2)
+        </py-script>
+    </body>
+
+
+</html>
